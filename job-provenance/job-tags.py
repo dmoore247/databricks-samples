@@ -21,7 +21,7 @@
 
 # COMMAND ----------
 
-# MAGIC %pip install --quiet databricks-sdk==0.13.0
+# MAGIC %pip install --quiet databricks-sdk==0.13.0 mlflow
 # MAGIC dbutils.library.restartPython()
 
 # COMMAND ----------
@@ -120,65 +120,21 @@ except Exception as e:
 
 # COMMAND ----------
 
-import json
+from job_context import get_job_context
 
+context = get_job_context(spark, dbutils)
 
-def get_context() -> dict:
-    version = 0
-    ctx = None
-    _ = spark.conf.get('spark.databricks.clusterUsageTags.sparkVersion', None)
-    assert 'custom' not in _ and 'dlt' not in _
+# COMMAND ----------
 
-    major, minor = int(_.split('.')[0]), int(_.split('.')[1])
-    version = (major, minor)
+import mlflow
+#mlflow.autolog()
 
-    if version <= (10,4):
-        try:
-            print('toJson')
-            ctx = json.loads(dbutils.notebook.entry_point.getDbutils().notebook().getContext().toJson())
-        except Exception as e:
-            print('toJson fails', e)
-
-    elif version <= (13,3):
-        try:
-            print('safeToJson')
-            ctx = json.loads(dbutils.notebook.entry_point.getDbutils().notebook().getContext().safeToJson())
-        except Exception as e:
-            print('safeToJson fails', e)
-    else:    
-        try:
-            print('databricks_repl_context')
-            from dbruntime.databricks_repl_context import get_context
-            _ = get_context()
-            if _:
-                ctx = get_context().__dict__
-        except Exception as e:
-            print('databricks_repl_context fails', e)
-    
-    r_ctx = {}
-    for x in ['commandRunId','notebookPath','notebook_path',
-              'notebookId','notebook_id',
-              'workspaceId',
-              'clusterId','clusterName','cluster_name',
-              'jobName','jobGroupId','jobGroup',
-              'idInJob',
-              'rootRunId', 'currentRunId', 'jobRunId', 
-              'jobId']:
-        if x in ctx.keys():
-            r_ctx[x] = ctx[x]
-        if 'tags' in ctx.keys():
-            for t in ctx['tags'].keys():
-                if t == x:
-                    r_ctx[t] = ctx['tags'][t]
-        if 'attributes' in ctx.keys():
-            for t in ctx['attributes'].keys():
-                if t == x:
-                    r_ctx[t] = ctx['attributes'][t]
-
-    return dict(sorted(r_ctx.items()))
-
-get_context()
-
+with mlflow.start_run(experiment_id="23900c21a2054ab3982fb13dc326122e"):
+    mlflow.log_param('notebook','parent')
+    mlflow.log_param('sparkVersion', spark.conf.get('spark.databricks.clusterUsageTags.sparkVersion', None))
+    mlflow.log_param('clusterSource',spark.conf.get('spark.databricks.clusterSource',None))
+    mlflow.log_metric('context_length',len(context))
+    mlflow.log_dict(context, "context.json")
 
 # COMMAND ----------
 
