@@ -110,7 +110,7 @@ if ctx:
 # COMMAND ----------
 
 try:
-    dbutils.notebook.run("./TFS toJSON debug-sub", timeout_seconds=60)
+    dbutils.notebook.run("./job-tags-sub", timeout_seconds=60)
 except Exception as e:
     print(e)
 
