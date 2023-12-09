@@ -1,5 +1,5 @@
 {
-  "name": "Acme job tag debug",
+  "name": "job tags",
   "description": "Demonstrate job context options across multiple interactive cluster types",
   "email_notifications": {
     "on_success": [
@@ -23,7 +23,7 @@
       "task_key": "dbr_10_4_lts",
       "run_if": "ALL_SUCCESS",
       "notebook_task": {
-        "notebook_path": "/Users/douglas.moore@databricks.com/Acme toJSON debug",
+        "notebook_path": "/Repos/douglas.moore@databricks.com/databricks-samples/job-provenance/job-tags",
         "source": "WORKSPACE"
       },
       "existing_cluster_id": "1208-223531-eu6r28om",
@@ -40,7 +40,7 @@
       "task_key": "dbr_10_4_lts-job-compute",
       "run_if": "ALL_SUCCESS",
       "notebook_task": {
-        "notebook_path": "/Users/douglas.moore@databricks.com/Acme toJSON debug",
+        "notebook_path": "/Repos/douglas.moore@databricks.com/databricks-samples/job-provenance/job-tags",
         "source": "WORKSPACE"
       },
       "job_cluster_key": "dbr_10_4_lts-job-compute_cluster",
@@ -57,7 +57,7 @@
       "task_key": "dbr_13_3_lts",
       "run_if": "ALL_SUCCESS",
       "notebook_task": {
-        "notebook_path": "/Users/douglas.moore@databricks.com/Acme toJSON debug",
+        "notebook_path": "/Repos/douglas.moore@databricks.com/databricks-samples/job-provenance/job-tags",
         "source": "WORKSPACE"
       },
       "existing_cluster_id": "1208-221431-swmkig5v",
@@ -74,7 +74,7 @@
       "task_key": "dbr_13_3_lts_job_compute",
       "run_if": "ALL_SUCCESS",
       "notebook_task": {
-        "notebook_path": "/Users/douglas.moore@databricks.com/Acme toJSON debug",
+        "notebook_path": "/Repos/douglas.moore@databricks.com/databricks-samples/job-provenance/job-tags",
         "source": "WORKSPACE"
       },
       "job_cluster_key": "dbr_13_3_lts_job_compute_cluster",
@@ -91,7 +91,7 @@
       "task_key": "dbr_14_2",
       "run_if": "ALL_SUCCESS",
       "notebook_task": {
-        "notebook_path": "/Users/douglas.moore@databricks.com/Acme toJSON debug",
+        "notebook_path": "/Repos/douglas.moore@databricks.com/databricks-samples/job-provenance/job-tags",
         "source": "WORKSPACE"
       },
       "existing_cluster_id": "1208-221504-8xo1e7x",
@@ -108,7 +108,7 @@
       "task_key": "dbr_14_2_job_compute",
       "run_if": "ALL_SUCCESS",
       "notebook_task": {
-        "notebook_path": "/Users/douglas.moore@databricks.com/Acme toJSON debug",
+        "notebook_path": "/Repos/douglas.moore@databricks.com/databricks-samples/job-provenance/job-tags",
         "source": "WORKSPACE"
       },
       "job_cluster_key": "dbr_14_2_job_compute_cluster",
@@ -153,7 +153,6 @@
       "new_cluster": {
         "cluster_name": "",
         "spark_version": "14.2.x-scala2.12",
-        "aws_attributes": {},
         "instance_pool_id": "0727-104344-hauls13-pool-uftxk0r6",
         "data_security_mode": "SINGLE_USER",
         "runtime_engine": "PHOTON",
@@ -161,8 +160,13 @@
       }
     }
   ],
+  "git_source": {
+    "git_url": "https://github.com/dmoore247/databricks-samples.git",
+    "git_provider": "gitHub",
+    "git_branch": "main"
+  },
   "tags": {
-    "customer": "Acme"
+    "customer": "Acme Corp"
   },
   "run_as": {
     "user_name": "douglas.moore@databricks.com"
