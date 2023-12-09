@@ -11,13 +11,8 @@
     "no_alert_for_skipped_runs": true
   },
   "webhook_notifications": {},
-  "timeout_seconds": 0,
-  "schedule": {
-    "quartz_cron_expression": "17 35 15 * * ?",
-    "timezone_id": "America/New_York",
-    "pause_status": "UNPAUSED"
-  },
-  "max_concurrent_runs": 4,
+  "timeout_seconds": 600,
+  "max_concurrent_runs": 2,
   "tasks": [
     {
       "task_key": "dbr_10_4_lts",
@@ -27,7 +22,7 @@
         "source": "WORKSPACE"
       },
       "existing_cluster_id": "1208-223531-eu6r28om",
-      "timeout_seconds": 0,
+      "timeout_seconds": 600,
       "email_notifications": {},
       "notification_settings": {
         "no_alert_for_skipped_runs": false,
@@ -44,7 +39,7 @@
         "source": "WORKSPACE"
       },
       "job_cluster_key": "dbr_10_4_lts-job-compute_cluster",
-      "timeout_seconds": 0,
+      "timeout_seconds": 600,
       "email_notifications": {},
       "notification_settings": {
         "no_alert_for_skipped_runs": false,
@@ -61,7 +56,7 @@
         "source": "WORKSPACE"
       },
       "existing_cluster_id": "1208-221431-swmkig5v",
-      "timeout_seconds": 0,
+      "timeout_seconds": 600,
       "email_notifications": {},
       "notification_settings": {
         "no_alert_for_skipped_runs": false,
@@ -78,7 +73,7 @@
         "source": "WORKSPACE"
       },
       "job_cluster_key": "dbr_13_3_lts_job_compute_cluster",
-      "timeout_seconds": 0,
+      "timeout_seconds": 600,
       "email_notifications": {},
       "notification_settings": {
         "no_alert_for_skipped_runs": false,
@@ -95,7 +90,7 @@
         "source": "WORKSPACE"
       },
       "existing_cluster_id": "1208-221504-8xo1e7x",
-      "timeout_seconds": 0,
+      "timeout_seconds": 600,
       "email_notifications": {},
       "notification_settings": {
         "no_alert_for_skipped_runs": false,
@@ -112,7 +107,7 @@
         "source": "WORKSPACE"
       },
       "job_cluster_key": "dbr_14_2_job_compute_cluster",
-      "timeout_seconds": 0,
+      "timeout_seconds": 600,
       "email_notifications": {},
       "notification_settings": {
         "no_alert_for_skipped_runs": false,

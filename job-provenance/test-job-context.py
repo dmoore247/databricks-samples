@@ -25,8 +25,4 @@ with mlflow.start_run(experiment_id="23900c21a2054ab3982fb13dc326122e"):
 
 # COMMAND ----------
 
-mlflow.version.VERSION
-
-# COMMAND ----------
-
 dbutils.notebook.run('./test-job-context-sub',timeout_seconds=60)
