@@ -105,7 +105,7 @@ if ctx:
 
 # COMMAND ----------
 
-# MAGIC %md #run sub-notebook
+# MAGIC %md ## run sub-notebook
 
 # COMMAND ----------
 
@@ -129,7 +129,7 @@ except Exception as e:
 
 try:
     ctx_safetojson = json.loads(dbutils.notebook.entry_point.getDbutils().notebook().getContext().safeToJson())
-    pprint.pprint('safeToJson', ctx_safetojson)
+    pprint.pprint(ctx_safetojson)
 except Exception as e:
     print(e)
 
@@ -140,6 +140,12 @@ try:
         pprint.pprint('databricks_repl_context', f"{ctx.__dict__}")
 except Exception as e:
     print(e)
+
+# COMMAND ----------
+
+ctx_safetojson = json.loads(dbutils.notebook.entry_point.getDbutils().notebook().getContext().safeToJson())
+pprint.pprint(ctx_safetojson)
+
 
 # COMMAND ----------
 
