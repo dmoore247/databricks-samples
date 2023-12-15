@@ -14,17 +14,16 @@ json.dumps(j)
 
 # COMMAND ----------
 
-from job_context import get_job_context
-
-context = get_job_context(spark, dbutils)
-
+from src.job_provenance.job_context import get_job_context
+context = get_job_context(dbutils)
 context
 
 # COMMAND ----------
 
 import mlflow
 print(mlflow.version.VERSION)
-mlflow.set_experiment("/Repos/douglas.moore@databricks.com/databricks-samples/job-provenance/job-tags")
+
+mlflow.set_experiment("/Repos/douglas.moore@databricks.com/databricks-samples/notebooks/test-job-context")
 with mlflow.start_run():
     mlflow.log_param('notebook','parent')
     mlflow.log_param('sparkVersion', spark.conf.get('spark.databricks.clusterUsageTags.sparkVersion', None))
