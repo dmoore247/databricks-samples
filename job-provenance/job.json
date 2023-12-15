@@ -1,15 +1,6 @@
 {
   "name": "job tags",
   "description": "Demonstrate job context options across multiple interactive cluster types",
-  "email_notifications": {
-    "on_success": [
-      "douglas.moore@databricks.com"
-    ],
-    "on_failure": [
-      "douglas.moore@databricks.com"
-    ],
-    "no_alert_for_skipped_runs": true
-  },
   "webhook_notifications": {},
   "timeout_seconds": 600,
   "max_concurrent_runs": 2,
