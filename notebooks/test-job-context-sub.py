@@ -9,18 +9,34 @@
 
 # COMMAND ----------
 
-from job_context import get_job_context
+import json
+j = json.loads(dbutils.notebook.entry_point.getDbutils().notebook().getContext().toJson())
+json.dumps(j)
 
+# COMMAND ----------
+
+dbutils.widgets.text('job_id', '', label='job_id')
+dbutils.widgets.text('job_run_id', '', label='job_run_id')
+parent_job_id = dbutils.widgets.get("job_id")
+parent_job_run_id = dbutils.widgets.get("job_run_id")
+
+parent_job_id, parent_job_run_id
+
+# COMMAND ----------
+
+from job_context import get_job_context
 context = get_job_context(spark, dbutils)
+
 context
 
 # COMMAND ----------
 
 import mlflow
-
-with mlflow.start_run(experiment_id="23900c21a2054ab3982fb13dc326122e"):
-    mlflow.log_param("notebook", "child")
-    mlflow.log_param("sparkVersion", spark.conf.get("spark.databricks.clusterUsageTags.sparkVersion", None))
-    mlflow.log_param("clusterSource", spark.conf.get("spark.databricks.clusterSource", None))
-    mlflow.log_metric("context_length", len(context))
+mlflow.set_experiment("/Repos/douglas.moore@databricks.com/databricks-samples/job-provenance/job-tags")
+with mlflow.start_run():
+    mlflow.log_param('notebook','child')
+    mlflow.log_param('sparkVersion', spark.conf.get('spark.databricks.clusterUsageTags.sparkVersion', None))
+    mlflow.log_param('clusterSource',spark.conf.get('spark.databricks.clusterSource',None))
+    mlflow.log_metric('context_length',len(context))
+>>>>>>> Stashed changes:job-provenance/test-job-context-sub.py
     mlflow.log_dict(context, "context.json")
