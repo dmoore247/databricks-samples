@@ -27,7 +27,6 @@
 # COMMAND ----------
 
 import json
-import pprint
 
 # COMMAND ----------
 
@@ -36,8 +35,7 @@ import pprint
 # COMMAND ----------
 
 try:
-    ctx_tojson = dbutils.notebook.entry_point.getDbutils().notebook().getContext().toJson()
-    pprint.pprint(ctx_tojson)
+    dbutils.notebook.entry_point.getDbutils().notebook().getContext().toJson()
 except Exception as e:
     print(e)
 
@@ -48,9 +46,10 @@ except Exception as e:
 # COMMAND ----------
 
 import json
+
 try:
     safe_tags = json.loads(dbutils.notebook.entry_point.getDbutils().notebook().getContext().safeToJson())
-    pprint.pprint(safe_tags)
+    print(safe_tags)
 except Exception as e:
     print(e)
 
@@ -60,12 +59,18 @@ except Exception as e:
 
 # COMMAND ----------
 
+from databricks.sdk import WorkspaceClient
+
+ws = WorkspaceClient()
+dbutils = ws.dbutils
+
+# COMMAND ----------
+
 import json
+
 try:
-    from databricks.sdk import WorkspaceClient
-    ws = WorkspaceClient()
-    sdk_safe_tojson = json.loads(ws.dbutils.notebook.entry_point.getDbutils().notebook().getContext().safeToJson())
-    pprint.pprint(sdk_safe_tojson)
+    safe_tags = json.loads(dbutils.notebook.entry_point.getDbutils().notebook().getContext().safeToJson())
+    print(safe_tags)
 except Exception as e:
     print(e)
 
@@ -79,17 +84,17 @@ except Exception as e:
 
 # COMMAND ----------
 
-tags = json.loads(spark.conf.get('spark.databricks.clusterUsageTags.clusterAllTags'))
+tags = json.loads(spark.conf.get("spark.databricks.clusterUsageTags.clusterAllTags"))
 tags
 
 # COMMAND ----------
 
-clusterName = spark.conf.get('spark.databricks.clusterUsageTags.clusterName', None)
+clusterName = spark.conf.get("spark.databricks.clusterUsageTags.clusterName", None)
 job_id = None
 run_id = None
-if 'job' in clusterName and 'run' in clusterName:
-    job_id = clusterName.split('-')[1]
-    run_id = clusterName.split('-')[3]
+if "job" in clusterName and "run" in clusterName:
+    job_id = clusterName.split("-")[1]
+    run_id = clusterName.split("-")[3]
 print(clusterName, job_id, run_id)
 
 # COMMAND ----------
@@ -99,43 +104,34 @@ print(clusterName, job_id, run_id)
 # COMMAND ----------
 
 from dbruntime.databricks_repl_context import get_context
+
 ctx = get_context()
 if ctx:
-    pprint.pprint(f"{ctx.__dict__}")
+    print(f"{ctx.__dict__}")
 
 # COMMAND ----------
 
-# MAGIC %md ## run sub-notebook
-
-# COMMAND ----------
-
-try:
-    dbutils.notebook.run("./job-tags-sub", timeout_seconds=60)
-except Exception as e:
-    print(e)
-
-# COMMAND ----------
-
-# MAGIC %md ## unified
+# MAGIC %md ## Unify
 
 # COMMAND ----------
 
 from job_context import get_job_context
 
 context = get_job_context(spark, dbutils)
+context
 
 # COMMAND ----------
 
+
 import mlflow
-#mlflow.autolog()
+
+# mlflow.autolog()
 
 with mlflow.start_run(experiment_id="23900c21a2054ab3982fb13dc326122e"):
-    mlflow.log_param('notebook','parent')
-    mlflow.log_param('sparkVersion', spark.conf.get('spark.databricks.clusterUsageTags.sparkVersion', None))
-    mlflow.log_param('clusterSource',spark.conf.get('spark.databricks.clusterSource',None))
-    mlflow.log_metric('context_length',len(context))
+    mlflow.log_param("notebook", "child")
+    mlflow.log_param("sparkVersion", spark.conf.get("spark.databricks.clusterUsageTags.sparkVersion", None))
+    mlflow.log_param("clusterSource", spark.conf.get("spark.databricks.clusterSource", None))
+    mlflow.log_metric("context_length", len(context))
     mlflow.log_dict(context, "context.json")
 
 # COMMAND ----------
-
-
