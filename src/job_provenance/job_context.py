@@ -1,14 +1,17 @@
 import json
 
+
 def get_version(spark):
-    _ = spark.conf.get('spark.databricks.clusterUsageTags.effectiveSparkVersion')
-    return int(_.split('.')[0]), int(_.split('.')[1])
+    _ = spark.conf.get("spark.databricks.clusterUsageTags.sparkVersion")
+    return int(_.split(".")[0]), int(_.split(".")[1])
+
 
 def is_job(spark):
-    _ = spark.conf.get('spark.databricks.clusterUsageTags.clusterAllTags')
+    _ = spark.conf.get("spark.databricks.clusterUsageTags.clusterAllTags")
     js = json.loads(_)
-    keys = [tag['key'] for tag in js]
+    keys = [tag["key"] for tag in js]
     return "jobId" in keys
+
 
 def _get_safe_ctx(dbutils, spark) -> dict:
     """Cycle through APIs to get context information"""
@@ -21,7 +24,8 @@ def _get_safe_ctx(dbutils, spark) -> dict:
     except Exception as e1:
         print("toJson", e1)
         try:
-            ctx = dbutils.notebook.entry_point.getDbutils().notebook().getContext().safeToJson()
+            if version > (13,3) and not is_job(spark):
+                ctx = dbutils.notebook.entry_point.getDbutils().notebook().getContext().safeToJson()
             ctx_type = "safeToJson"
         except Exception as e2:
             print("toSafeJson", e2)
@@ -35,7 +39,7 @@ def _get_safe_ctx(dbutils, spark) -> dict:
     return json.loads(ctx), ctx_type
 
 
-def get_job_context(dbutils) -> dict:
+def get_job_context(dbutils, spark) -> dict:
     """
     Return job context for current notebook for use in auditing.
     """
@@ -43,7 +47,7 @@ def get_job_context(dbutils) -> dict:
 
     task_run_id = job_run_id = job_id = org_id = user = None
 
-    ctx, ctx_type = _get_safe_ctx(dbutils)
+    ctx, ctx_type = _get_safe_ctx(dbutils, spark)
     if ctx_type == "toJson":
         tags = ctx.get("tags", None)
         task_run_id = str(ctx.get("currentRunId", None).get("id", None))

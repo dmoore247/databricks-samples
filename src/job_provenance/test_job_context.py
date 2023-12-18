@@ -2,7 +2,8 @@ import json
 from unittest.mock import MagicMock
 
 import pytest
-from job_context import get_job_context
+
+from job_provenance.job_context import get_job_context
 
 
 @pytest.fixture
@@ -53,7 +54,7 @@ def test_dbutils():
 
 def test_get_context_10_4_parent(spark):
     dbutils = get_dbutils("resources/10.4.json")
-    r_ctx = get_job_context(spark, dbutils)
+    r_ctx = get_job_context(dbutils=dbutils, spark=spark)
     assert r_ctx is not None
     assert r_ctx["org_id"] == "1444828305810485"
     assert r_ctx["user"] == "douglas.moore@databricks.com"
@@ -64,7 +65,7 @@ def test_get_context_10_4_parent(spark):
 
 def test_get_context_10_4_child(spark):
     dbutils = get_dbutils("resources/10.4.child.json")
-    r_ctx = get_job_context(spark, dbutils)
+    r_ctx = get_job_context(dbutils=dbutils, spark=spark)
     assert r_ctx is not None
     assert r_ctx["org_id"] == "1444828305810485"
     assert r_ctx["user"] == "douglas.moore@databricks.com"
