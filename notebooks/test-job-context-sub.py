@@ -17,10 +17,12 @@ json.dumps(j)
 
 dbutils.widgets.text('job_id', '', label='job_id')
 dbutils.widgets.text('job_run_id', '', label='job_run_id')
+dbutils.widgets.text('task_run_id', '', label='task_run_id')
 parent_job_id = dbutils.widgets.get("job_id")
 parent_job_run_id = dbutils.widgets.get("job_run_id")
+parent_task_run_id = dbutils.widgets.get("task_run_id")
 
-parent_job_id, parent_job_run_id
+parent_job_id, parent_job_run_id, parent_task_run_id
 
 # COMMAND ----------
 
@@ -38,3 +40,11 @@ with mlflow.start_run():
     mlflow.log_param('clusterSource',spark.conf.get('spark.databricks.clusterSource',None))
     mlflow.log_metric('context_length',len(context))
     mlflow.log_dict(context, "context.json")
+
+# COMMAND ----------
+
+dbutils.notebook.run('./test-job-context-sub-grandchild',timeout_seconds=300, arguments=context)
+
+# COMMAND ----------
+
+
