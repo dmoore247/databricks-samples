@@ -1,5 +1,5 @@
 # Databricks notebook source
-#dbutils.notebook.entry_point.getDbutils().notebook().getContext().safeToJson()
+# dbutils.notebook.entry_point.getDbutils().notebook().getContext().safeToJson()
 
 # COMMAND ----------
 
@@ -17,24 +17,24 @@ is_job(spark)
 # COMMAND ----------
 
 
-
 # COMMAND ----------
 
 # MAGIC %sql set
 
 # COMMAND ----------
 
+
 def get_version(spark):
     _ = spark.conf.get('spark.databricks.clusterUsageTags.effectiveSparkVersion')
     return int(_.split('.')[0]), int(_.split('.')[1])
+
+
 get_version(spark)
 
 # COMMAND ----------
 
 
-
 # COMMAND ----------
-
 
 
 # COMMAND ----------
@@ -45,7 +45,7 @@ try:
 except Exception as e:
     print('caught ' + e)
 finally:
-    print('finally ' )
+    print('finally ')
 
 # COMMAND ----------
 
@@ -56,5 +56,3 @@ dbutils.notebook.entry_point.getDbutils().notebook().getContext().toJson()
 dbutils.notebook.entry_point.getDbutils().notebook().getContext().safeToJson
 
 # COMMAND ----------
-
-

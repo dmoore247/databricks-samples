@@ -14,8 +14,6 @@ print(response['Account'])
 # Assigned cluster: 980002020202
 # Serverless: NoCredentialsError: Unable to locate credentials
 # job cluster w/o instance profile: NoCredentialsError: Unable to locate credentials
-# job cluster w/ instance profile: 
+# job cluster w/ instance profile:
 
 # COMMAND ----------
-
-
