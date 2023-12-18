@@ -6,27 +6,10 @@
   "max_concurrent_runs": 2,
   "tasks": [
     {
-      "task_key": "dbr_10_4_lts",
-      "run_if": "ALL_SUCCESS",
-      "notebook_task": {
-        "notebook_path": "/Repos/douglas.moore@databricks.com/databricks-samples/job-provenance/test-job-context",
-        "source": "WORKSPACE"
-      },
-      "existing_cluster_id": "1208-223531-eu6r28om",
-      "timeout_seconds": 600,
-      "email_notifications": {},
-      "notification_settings": {
-        "no_alert_for_skipped_runs": false,
-        "no_alert_for_canceled_runs": false,
-        "alert_on_last_attempt": false
-      },
-      "webhook_notifications": {}
-    },
-    {
       "task_key": "dbr_10_4_lts-job-compute",
       "run_if": "ALL_SUCCESS",
       "notebook_task": {
-        "notebook_path": "/Repos/douglas.moore@databricks.com/databricks-samples/job-provenance/test-job-context",
+        "notebook_path": "/Repos/douglas.moore@databricks.com/databricks-samples/notebooks/test-job-context",
         "source": "WORKSPACE"
       },
       "job_cluster_key": "dbr_10_4_lts-job-compute_cluster",
@@ -40,27 +23,10 @@
       "webhook_notifications": {}
     },
     {
-      "task_key": "dbr_13_3_lts",
-      "run_if": "ALL_SUCCESS",
-      "notebook_task": {
-        "notebook_path": "/Repos/douglas.moore@databricks.com/databricks-samples/job-provenance/test-job-context",
-        "source": "WORKSPACE"
-      },
-      "existing_cluster_id": "1208-221431-swmkig5v",
-      "timeout_seconds": 600,
-      "email_notifications": {},
-      "notification_settings": {
-        "no_alert_for_skipped_runs": false,
-        "no_alert_for_canceled_runs": false,
-        "alert_on_last_attempt": false
-      },
-      "webhook_notifications": {}
-    },
-    {
       "task_key": "dbr_13_3_lts_job_compute",
       "run_if": "ALL_SUCCESS",
       "notebook_task": {
-        "notebook_path": "/Repos/douglas.moore@databricks.com/databricks-samples/job-provenance/test-job-context",
+        "notebook_path": "/Repos/douglas.moore@databricks.com/databricks-samples/notebooks/test-job-context",
         "source": "WORKSPACE"
       },
       "job_cluster_key": "dbr_13_3_lts_job_compute_cluster",
@@ -74,27 +40,10 @@
       "webhook_notifications": {}
     },
     {
-      "task_key": "dbr_14_2",
-      "run_if": "ALL_SUCCESS",
-      "notebook_task": {
-        "notebook_path": "/Repos/douglas.moore@databricks.com/databricks-samples/job-provenance/test-job-context",
-        "source": "WORKSPACE"
-      },
-      "existing_cluster_id": "1208-221504-8xo1e7x",
-      "timeout_seconds": 600,
-      "email_notifications": {},
-      "notification_settings": {
-        "no_alert_for_skipped_runs": false,
-        "no_alert_for_canceled_runs": false,
-        "alert_on_last_attempt": false
-      },
-      "webhook_notifications": {}
-    },
-    {
       "task_key": "dbr_14_2_job_compute",
       "run_if": "ALL_SUCCESS",
       "notebook_task": {
-        "notebook_path": "/Repos/douglas.moore@databricks.com/databricks-samples/job-provenance/test-job-context",
+        "notebook_path": "/Repos/douglas.moore@databricks.com/databricks-samples/notebooks/test-job-context",
         "source": "WORKSPACE"
       },
       "job_cluster_key": "dbr_14_2_job_compute_cluster",
