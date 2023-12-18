@@ -1,10 +1,20 @@
 import json
 
+def get_version(spark):
+    _ = spark.conf.get('spark.databricks.clusterUsageTags.effectiveSparkVersion')
+    return int(_.split('.')[0]), int(_.split('.')[1])
 
-def _get_safe_ctx(dbutils) -> dict:
+def is_job(spark):
+    _ = spark.conf.get('spark.databricks.clusterUsageTags.clusterAllTags')
+    js = json.loads(_)
+    keys = [tag['key'] for tag in js]
+    return "jobId" in keys
+
+def _get_safe_ctx(dbutils, spark) -> dict:
     """Cycle through APIs to get context information"""
     ctx = None
     ctx_type = None
+    version = get_version(spark)
     try:
         ctx = dbutils.notebook.entry_point.getDbutils().notebook().getContext().toJson()
         ctx_type = "toJson"
