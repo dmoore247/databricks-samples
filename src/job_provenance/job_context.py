@@ -10,7 +10,7 @@ def is_job(spark):
     _ = spark.conf.get("spark.databricks.clusterUsageTags.clusterAllTags")
     js = json.loads(_)
     keys = [tag["key"] for tag in js]
-    return "jobId" in keys
+    return "JobId" in keys
 
 
 def _get_safe_ctx(dbutils, spark) -> dict:
@@ -47,28 +47,31 @@ def get_job_context(dbutils, spark) -> dict:
 
     task_run_id = job_run_id = job_id = org_id = user = None
 
-    ctx, ctx_type = _get_safe_ctx(dbutils, spark)
+    ctx, ctx_type = _get_safe_ctx(dbutils=dbutils, spark=spark)
     if ctx_type == "toJson":
         tags = ctx.get("tags", None)
-        task_run_id = str(ctx.get("currentRunId", None).get("id", None))
-        job_run_id = tags.get("jobRunId", None) if task_run_id != tags.get("jobRunId", None) else None
-        job_id = tags.get("jobId", None)
+        if is_job(spark=spark):
+            task_run_id = str(ctx.get("currentRunId", None).get("id", None))
+            job_run_id = tags.get("jobRunId", None) if task_run_id != tags.get("jobRunId", None) else None
+            job_id = tags.get("jobId", None)
         org_id = tags.get("orgId", None)
         user = tags.get("user", None)
 
     elif ctx_type == "safeToJson":
         attrs = ctx.get("attributes", None)
-        task_run_id = attrs.get("currentRunId") or attrs.get("rootRunId", None)
-        job_run_id = (
-            attrs.get("multitaskParentRunId", None) or attrs.get("jobRunId", None) or attrs.get("rootRunId", None)
-        )
-        job_id = attrs.get("jobId", None)
+        if is_job(spark=spark):
+            task_run_id = attrs.get("currentRunId") or attrs.get("rootRunId", None)
+            job_run_id = (
+                attrs.get("multitaskParentRunId", None) or attrs.get("jobRunId", None) or attrs.get("rootRunId", None)
+            )
+            job_id = attrs.get("jobId", None)
         org_id = attrs.get("orgId", None)
         user = attrs.get("user", None)
     else:
-        task_run_id = ctx.get("currentRunId", None) or ctx.get("rootRunId", None)
-        job_run_id = ctx.get("multitaskParentRunId", None) or ctx.get("jobRunId", None) or ctx.get("rootRunId", None)
-        job_id = ctx.get("jobId", None)
+        if is_job(spark=spark):
+            task_run_id = ctx.get("currentRunId", None) or ctx.get("rootRunId", None)
+            job_run_id = ctx.get("multitaskParentRunId", None) or ctx.get("jobRunId", None) or ctx.get("rootRunId", None)
+            job_id = ctx.get("jobId", None)
         org_id = ctx.get("orgId", None)
         user = ctx.get("user", None)
 

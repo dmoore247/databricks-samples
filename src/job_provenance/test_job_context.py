@@ -3,19 +3,33 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from job_provenance.job_context import get_job_context
+from job_provenance.job_context import get_job_context, is_job
 
+MIN_CONTEXT_LENGTH = 1000
 
 @pytest.fixture
 def spark():
     spark = MagicMock()
 
     def mock_get(key, default=None) -> str:
-        return {"spark.databricks.clusterUsageTags.sparkVersion": "10.4.x"}.get(key, default)
+        job_all_tags = """[{"key":"Vendor","value":"Databricks"},{"key":"Creator","value":"douglas.moore@databricks.com"},{"key":"ClusterName","value":"job-208642262573410-run-946414708728403"},{"key":"ClusterId","value":"1218-164003-oleantft"},{"key":"DatabricksInstancePoolCreatorId","value":"7644138420879474"},{"key":"DatabricksInstancePoolId","value":"0727-104344-hauls13-pool-uftxk0r6"},{"key":"DatabricksInstanceGroupId","value":"-8117034103866820710"},{"key":"JobId","value":"208642262573410"},{"key":"RunName","value":"scratch"},{"key":"Name","value":"workerenv-1444828305810485-d9ffacea-609b-45bd-9ce1-0aea7d300120-worker"}]"""
+        return {"spark.databricks.clusterUsageTags.sparkVersion": "10.4.x",
+                "spark.databricks.clusterUsageTags.clusterAllTags": job_all_tags}.get(key, default)
 
     spark.conf.get = mock_get
     return spark
 
+@pytest.fixture
+def iteractive_10_4_spark():
+    spark = MagicMock()
+
+    def mock_get(key, default=None) -> str:
+        all_tags = """[{"key":"Vendor","value":"Databricks"},{"key":"Creator","value":"douglas.moore@databricks.com"},{"key":"ClusterName","value":"Cody Davis's Shared 14.2 Cluster"},{"key":"ClusterId","value":"1215-153339-cmts67ky"},{"key":"Name","value":"workerenv-1444828305810485-d9ffacea-609b-45bd-9ce1-0aea7d300120-worker"}]"""
+        return {"spark.databricks.clusterUsageTags.sparkVersion": "10.4.x",
+                "spark.databricks.clusterUsageTags.clusterAllTags": all_tags}.get(key, default)
+
+    spark.conf.get = mock_get
+    return spark
 
 def get_dbutils(file_name: str):
     # dbutils.notebook.entry_point.getDbutils().notebook().getContext().toJson()
@@ -35,7 +49,8 @@ def test_spark_conf(spark):
     assert spark.conf.get("zed") is None
 
 
-MIN_CONTEXT_LENGTH = 1000
+def test_is_job(spark):
+    assert True == is_job(spark)
 
 
 def test_dbutils():
@@ -72,3 +87,13 @@ def test_get_context_10_4_child(spark):
     assert r_ctx["job_id"] == "822028419959927"
     assert r_ctx["job_run_id"] is None
     assert r_ctx["task_run_id"] == "448220989536269"
+    
+def test_get_context_10_4_interactive(iteractive_10_4_spark):
+    dbutils = get_dbutils("resources/10.4.interactive.json")
+    r_ctx = get_job_context(dbutils=dbutils, spark=iteractive_10_4_spark)
+    assert r_ctx is not None
+    assert r_ctx["org_id"] == "1444828305810485"
+    assert r_ctx["user"] == "douglas.moore@databricks.com"
+    assert r_ctx["job_id"] is None
+    assert r_ctx["job_run_id"] is None
+    assert r_ctx["task_run_id"] is None

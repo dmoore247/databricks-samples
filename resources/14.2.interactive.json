@@ -1,0 +1,26 @@
+{
+    "attributes": {
+        "mlflowGitRelativePath": "notebooks/scratch",
+        "non_uc_api_token": "[REDACTED]",
+        "enableDeltaLiveTablesAnalysis": "true",
+        "mlflowGitStatus": "unknown",
+        "commandRunId": "cc48772b-04a3-4e7f-9010-76eecbdacdab",
+        "mlflowGitReference": "main",
+        "mlflowGitUrl": "https://github.com/dmoore247/databricks-samples.git",
+        "notebook_path": "/Repos/douglas.moore@databricks.com/databricks-samples/notebooks/scratch",
+        "notebook_id": "502783634811541",
+        "orgId": "1444828305810485",
+        "mlflowGitCommit": "605a2a975fd0ee6c054bfd31fffe35c64cbc73b0",
+        "mlflowGitReferenceType": "branch",
+        "clusterId": "1215-153339-cmts67ky",
+        "api_url": "https://oregon.cloud.databricks.com",
+        "aclPathOfAclRoot": "/workspace/1162555279775472/3945504874997326/1974893261152428/3239664139663167/502783634811541",
+        "mlflowGitProvider": "gitHub",
+        "api_token": "[REDACTED]",
+        "jobGroup": "3856633938341614806_7638340559554876968_8effbdb9711545d6bc875093b2ca60b5",
+        "user": "douglas.moore@databricks.com",
+        "currentRunId": "",
+        "browserHostName": "e2-demo-field-eng.cloud.databricks.com",
+        "rootRunId": ""
+    }
+}
