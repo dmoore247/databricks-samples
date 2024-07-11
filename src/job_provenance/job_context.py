@@ -18,12 +18,12 @@ def _get_safe_ctx(dbutils, spark) -> dict:
     try:
         ctx = dbutils.notebook.entry_point.getDbutils().notebook().getContext().toJson()
         ctx_type = "toJson"
-    except Exception as e1:
+    except:
         print("toJson", e1)
         try:
             ctx = dbutils.notebook.entry_point.getDbutils().notebook().getContext().safeToJson()
             ctx_type = "safeToJson"
-        except Exception as e2:
+        except:
             print("toSafeJson", e2)
             from dbruntime.databricks_repl_context import get_context
 
@@ -31,7 +31,6 @@ def _get_safe_ctx(dbutils, spark) -> dict:
             if _:
                 ctx = get_context().__dict__
                 ctx_type = "repl_context"
-    # print(ctx_type, ctx)
     return json.loads(ctx), ctx_type
 
 
